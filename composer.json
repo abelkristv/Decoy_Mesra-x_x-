@@ -1,0 +1,19 @@
+{
+    "name": "abel/decoy_mesra",
+    "description": "a test project creating mvc from scratch with php",
+    "type": "project",
+    "license": "GPLV3",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abel Kristanto"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
+}
