@@ -33,25 +33,21 @@ class SiteController extends Controller
 
     public function guruPage(): string
     {
-        $this->setLayout('none');
         return $this->render('guruPage');
     }
 
     public function transaksi(): string
     {
-        $this->setLayout('none');
         return $this->render('transaksi');
     }
 
     public function formTransaksi(): string
     { 
-        $this->setLayout('none');
         return $this->render('formTransaksi');
     }
 
     public function grading(): string
     { 
-        $this->setLayout('none');
         return $this->render('grading');
     }
 }
