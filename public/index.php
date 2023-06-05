@@ -22,9 +22,10 @@ $config = [
 ];
 $app = new Application(dirname(__DIR__), $config);
 
-$app->router->get('/', [SiteController::class, 'login']);
+$app->router->get('/', [AuthController::class, 'login']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
 $app->router->get('/dashboard', [SiteController::class, 'dashboard']);
+$app->router->get('/mapel', [SiteController::class, 'mapel']);
 $app->router->get('/guruPage', [SiteController::class, 'guruPage']);
 $app->router->get('/transaksi', [SiteController::class, 'transaksi']);
 $app->router->get('/formTransaksi', [SiteController::class, 'formTransaksi']);

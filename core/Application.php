@@ -22,6 +22,7 @@ class Application
         $this->response = new Response();
         $this->session = new Session();
         $this->router = new Router($this->request, $this->response);
+        $this->controller = new Controller();
 
     }
 

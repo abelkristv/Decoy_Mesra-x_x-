@@ -2,6 +2,10 @@
 
 namespace app\views;
 use app\core\form\Form;
+use app\core\Session;
+
+unset($_SESSION[Session::FLASH_KEY]['siswa']);
+unset($_SESSION[Session::FLASH_KEY]['guru']);
 
 ?>
 <link rel="stylesheet" href="css/loginStyle.css" >

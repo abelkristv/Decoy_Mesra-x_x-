@@ -28,7 +28,15 @@ class SiteController extends Controller
 
     public function dashboard(): string
     {
+        $this->setLayout('murid');
         return $this->render('dashboard');
+    }
+
+    
+    public function mapel(): string
+    {
+        $this->setLayout('murid');
+        return $this->render('mapel');
     }
 
     public function guruPage(): string
