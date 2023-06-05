@@ -39,6 +39,12 @@ class SiteController extends Controller
         return $this->render('mapel');
     }
 
+    public function transaksi_murid(): string
+    {
+        $this->setLayout('murid');
+        return $this->render('transaksi_murid');
+    }
+
     public function guruPage(): string
     {
         return $this->render('guruPage');
