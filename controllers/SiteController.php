@@ -64,6 +64,12 @@ class SiteController extends Controller
     { 
         return $this->render('grading');
     }
+
+    
+    public function logout(): string
+    { 
+        return $this->render('logout');
+    }
 }
 
 ?>

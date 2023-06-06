@@ -2,6 +2,7 @@
 <?php
 session_start();
 use app\core\Session;
+use app\core\Application;
 
 if (!isset($_SESSION[Session::FLASH_KEY]['siswa'])) {
     header("Location: login");
@@ -11,16 +12,7 @@ if (!isset($_SESSION[Session::FLASH_KEY]['siswa'])) {
             <!-- CONTENT START -->
             <div class="col-10 main-content">
             <?php 
-                function OpenCon(){
-                    $dbhost = "127.0.0.1"; 
-                    $dbuser = "root"; 
-                    $dbpass = "";
-                    $db_name = "Tadika_Mesra";
-                    $conn = new mysqli($dbhost, $dbuser, $dbpass,$db_name) or die("Connect failed: %s\n". $conn -> error);
-                    return $conn;
-                }
                 $ID = $_SESSION[Session::FLASH_KEY]['siswa']['value'];
-                $conn = OpenCon();
                 $sql = 
                 "
                 SELECT g.Nama_Guru
@@ -29,7 +21,10 @@ if (!isset($_SESSION[Session::FLASH_KEY]['siswa'])) {
                 JOIN Guru g ON k.ID_Guru = g.ID_Guru
                 WHERE s.ID_Siswa = 'S001'
                 ";
-                $row = mysqli_fetch_array(mysqli_query($conn, $sql), MYSQLI_ASSOC);
+                $statement = Application::$app->db->pdo->prepare($sql);
+                $statement->execute();
+                $row = $statement->fetch();
+
                 $wali = $row['Nama_Guru'];
                 $sql = 
                 "
@@ -40,8 +35,9 @@ if (!isset($_SESSION[Session::FLASH_KEY]['siswa'])) {
                     JOIN Siswa s ON t.ID_Siswa = s.ID_Siswa
                     WHERE s.ID_Siswa = '$ID'
                 ";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $statement = Application::$app->db->pdo->prepare($sql);
+                $statement->execute();
+                $row = $statement->fetch();
                 do{
                 ?>
                 <div class="row mx-3 my-3">
@@ -61,7 +57,7 @@ if (!isset($_SESSION[Session::FLASH_KEY]['siswa'])) {
                         <p class="mx-2 ms-4"><?= $row['Catatan_Guru'] ?></p>
                     </div>
                 </div>
-                <?php }while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) ?>
+                <?php }while($row = $statement->fetch()) ?>
 
 
             </div>

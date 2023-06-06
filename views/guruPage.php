@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <?php
 use app\core\Session;
+use app\core\Application;
 
 session_start();
 
 ?>
 <!-- CONTENT START -->
-<?php function OpenCon(){
-    $dbhost = "127.0.0.1"; $dbuser = "root"; $dbpass = "";
-    $db_name = "Tadika_Mesra";
-    $conn = new mysqli($dbhost, $dbuser, $dbpass,$db_name) or die("Connect failed: %s\n". $conn -> error);
-    return $conn;
-}
-$conn = OpenCon();
+<?php
 $ID = $_SESSION[Session::FLASH_KEY]['guru']['value'];
 $sql = 
 "
@@ -22,8 +17,9 @@ $sql =
     JOIN Guru ON Kelas.ID_Guru = Guru.ID_Guru
     WHERE Guru.ID_Guru = '$ID'
 ";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+$statement = Application::$app->db->pdo->prepare($sql);
+$statement->execute();
+$row = $statement->fetch();
 do{
 ?>
     <div class="row">
@@ -38,7 +34,6 @@ do{
         <p class="m-0">Wali Kelas : <?= $row['Nama_Guru'] ?></p>
     </div>
 </div>
-<?php }while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) ?>
+<?php }while($row = $statement->fetch())?>
 <br>
 
-<?php function CloseCon($conn){$conn -> close();}?>

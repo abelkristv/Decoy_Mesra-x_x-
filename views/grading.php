@@ -3,6 +3,7 @@
 session_start();
 
 use app\core\Session;
+use app\core\Application;
 
 if (!isset($_SESSION[Session::FLASH_KEY]['guru'])) {
     header("Location: login");
@@ -18,22 +19,15 @@ if (!isset($_SESSION[Session::FLASH_KEY]['guru'])) {
             <div class="input-group-text">Siswa</div>
             <select class="form-select" id="input_anak" name="input_anak" aria-label="inputanak">
                 <?php
-                function OpenCon(){
-                    $dbhost = "127.0.0.1"; $dbuser = "root"; $dbpass = "";
-                    $db_name = "Tadika_Mesra";
-                    $conn = new mysqli($dbhost, $dbuser, $dbpass,$db_name) or die("Connect failed: %s\n". $conn -> error);
-                    return $conn;
-                }
-                $conn = OpenCon();
-
                   $id_guru = $_SESSION[Session::FLASH_KEY]['guru']['value'];
                   $sql = "SELECT Siswa.Nama_Siswa FROM Siswa, Kelas WHERE Siswa.ID_Kelas = Kelas.ID_Kelas AND Kelas.ID_Guru = '$id_guru'";
-                  $result = mysqli_query($conn, $sql);
-                  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                  $statement = Application::$app->db->pdo->prepare($sql);
+                  $statement->execute();
+                  $row = $statement->fetch();
                     do {
 
                       echo "<option selected>". $row['Nama_Siswa']. "</option>";
-                    } while($row = mysqli_fetch_array($result, MYSQLI_ASSOC));
+                    } while($row = $statement->fetch());
                 ?>
             </select>
         </div>
@@ -43,8 +37,9 @@ if (!isset($_SESSION[Session::FLASH_KEY]['guru'])) {
           $sql = "SELECT Mapel.Nama_Mapel FROM Mapel
                     JOIN KelasMapel ON Mapel.ID_Mapel = KelasMapel.ID_Mapel
                     WHERE KelasMapel.ID_Guru = '$id_guru'";
-          $result = mysqli_query($conn, $sql);
-          $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+          $statement = Application::$app->db->pdo->prepare($sql);
+          $statement->execute();
+          $row = $statement->fetch();
         ?>
         <div class="input-group mb-3">
         <div class="input-group-text">Nilai <?= $row['Nama_Mapel']?> </div>

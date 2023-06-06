@@ -3,22 +3,13 @@
 session_start();
 
 use app\core\Session;
+use app\core\Application;
 
 ?>
 <!-- CONTENT START -->
 <div class="col-10 main-content">
 <?php 
-    function OpenCon(){
-        $dbhost = "127.0.0.1"; 
-        $dbuser = "root"; 
-        $dbpass = "";
-        $db_name = "Tadika_Mesra";
-        $conn = new mysqli($dbhost, $dbuser, $dbpass,$db_name) or die("Connect failed: %s\n". $conn -> error);
-        return $conn;
-    }
     $ID = $_SESSION[Session::FLASH_KEY]['guru']['value'];
-
-    $conn = OpenCon();
     $sql = 
     "
         SELECT t.Date, m.Nama_Makanan, f.image, t.Deskripsi_Transaksi, t.Catatan_Guru
@@ -30,8 +21,9 @@ use app\core\Session;
         JOIN Guru g ON k.ID_Guru = g.ID_Guru
         WHERE g.ID_Guru = '$ID';
     ";
-    $result = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $statement = Application::$app->db->pdo->prepare($sql);
+    $statement->execute();
+    $row = $statement->fetch();
     do{
     ?>
 
@@ -52,7 +44,7 @@ use app\core\Session;
         </div>
     
     </div>
-    <?php }while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) ?>
+    <?php }while($row = $statement->fetch()) ?>
 
 </body>
 

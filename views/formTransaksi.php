@@ -3,6 +3,8 @@
 session_start();
 
 use app\core\Session;
+use app\core\Application;
+
 
 ?>
 <!-- CONTENT START -->
@@ -13,22 +15,15 @@ use app\core\Session;
             <div class="input-group-text">Kelas</div>
             <select class="form-select disable" id="input_kelas" name="input_kelas" aria-label="inputkelas" disabled>
                 <?php
-                function OpenCon(){
-                    $dbhost = "127.0.0.1"; $dbuser = "root"; $dbpass = "";
-                    $db_name = "Tadika_Mesra";
-                    $conn = new mysqli($dbhost, $dbuser, $dbpass,$db_name) or die("Connect failed: %s\n". $conn -> error);
-                    return $conn;
-                }
-                  $conn = OpenCon();
-
                   $id_guru = $_SESSION[Session::FLASH_KEY]['guru']['value'];
 
                   $sql = "SELECT Nama_Kelas FROM Kelas WHERE Kelas.ID_Guru='$id_guru'";
-                  $result = mysqli_query($conn, $sql);
-                  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                  $statement = Application::$app->db->pdo->prepare($sql);
+                  $statement->execute();
+                  $row = $statement->fetch();
                     do {
                       echo "<option selected>". $row['Nama_Kelas']. "</option>";
-                    } while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) 
+                    } while($row = $statement->fetch()) 
                 ?>
             </select>
         </div>
@@ -39,12 +34,13 @@ use app\core\Session;
                 <?php
                   $id_guru = $_SESSION[Session::FLASH_KEY]['guru']['value'];
                   $sql = "SELECT Siswa.Nama_Siswa FROM Siswa, Kelas WHERE Siswa.ID_Kelas = Kelas.ID_Kelas AND Kelas.ID_Guru = '$id_guru'";
-                  $result = mysqli_query($conn, $sql);
-                  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                  $statement = Application::$app->db->pdo->prepare($sql);
+                  $statement->execute();
+                  $row = $statement->fetch();
                     do {
 
                       echo "<option selected>". $row['Nama_Siswa']. "</option>";
-                    } while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) 
+                    } while($row = $statement->fetch()) 
 
                 ?>
             </select>

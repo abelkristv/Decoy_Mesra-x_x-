@@ -3,6 +3,9 @@
 
 namespace app\public;
 
+error_reporting(E_ERROR); 
+
+
 use app\core\Application;
 use app\controllers\SiteController;
 use app\controllers\AuthController;
@@ -35,7 +38,7 @@ $app->router->get('/saran', [SiteController::class, 'saran']);
 $app->router->get('/logout', [SiteController::class, 'formTransaksi']);
 $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->get('/register', [AuthController::class, 'register']);
-$app->router->get('/logout', [AuthController::class, 'login']);
+$app->router->get('/logout', [SiteController::class, 'logout']);
 
 $app->router->post('/login', [AuthController::class, 'login']);
 $app->router->post('/contact', [SiteController::class, 'handleContact']);
