@@ -26,6 +26,9 @@ class Router
      */
     public function get($path, $callback): void
     {
+        //if ($path === '/') {
+        //    Application::$app->response->redirect('/login');
+        //}
         $this->routes['get'][$path] = $callback;
     }
 

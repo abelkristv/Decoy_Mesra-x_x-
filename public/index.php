@@ -25,7 +25,7 @@ $config = [
 ];
 $app = new Application(dirname(__DIR__), $config);
 
-$app->router->get('/', [AuthController::class, 'login']);
+$app->router->get('/', [SiteController::class, 'loginRedirect']);
 $app->router->get('/contact', [SiteController::class, 'contact']);
 $app->router->get('/dashboard', [SiteController::class, 'dashboard']);
 $app->router->get('/mapel', [SiteController::class, 'mapel']);
